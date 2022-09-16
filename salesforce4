@@ -1,0 +1,14 @@
+--------------------------------------------------MaintenanceRequest.apxt------------------------------------------------------
+
+trigger MaintenanceRequest on Case (before update, after update) {
+    if(Trigger.isUpdate && Trigger.isAfter){
+        MaintenanceRequestHelper.updateWorkOrders(Trigger.New, Trigger.OldMap);
+    }
+}
+
+-----------------------------------------------------MaintenanceRequestHelper.apxc------------------------------------------------
+
+public with sharing class MaintenanceRequestHelper {
+    public static void updateworkOrders(List<Case> updWorkOrders, Map<Id,Case> nonUpdCaseMap) {
+        Set<Id> validIds = new Set<Id>();
+        
